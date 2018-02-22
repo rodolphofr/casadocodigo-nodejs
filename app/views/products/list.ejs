@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Products</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
 <body>
-    <table>
+    <table id="table-products">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Titulo</th>
-                <th>Descricao</th>
-                <th>Preco</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>
             <% books.forEach((book) => { %>
                 <tr>
                     <td><%= book.id %></td>
-                    <td><%= book.titulo %></td>
-                    <td><%= book.descricao %></td>
-                    <td><%= book.preco %></td>
+                    <td><%= book.title %></td>
+                    <td><%= book.description %></td>
+                    <td><%= book.price %></td>
+                    <td>
+                        <form action="/products?_method=DELETE" method="post">
+                            <input type="hidden" name="id" value="<%= book.id %>"/>
+                            <input type="submit" value="Delete"/>
+                        </form>
+                    </td>
                 </tr>
             <% }) %>
         </tbody>

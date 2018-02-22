@@ -1,13 +1,42 @@
 
 module.exports = (app) => {
-    app.get('/products', (req, res) => {
+    app.get('/products', (request, response) => {
         let connection = app.infra.connectionFactory();
-        let products = new app.infra.ProductsDAO(connection);
+        let prodDAO = new app.infra.ProductsDAO(connection);
 
-        products.list((error, result) => {
-            res.render('products/list', { books : result });
+        prodDAO.list((err, result) => {
+            response.render('products/list', { books : result });
         });
 
         connection.end();
+    });
+
+    app.post('/products', (request, response) => {
+        let product = request.body;
+        let connection = app.infra.connectionFactory();
+        let prodDAO = new app.infra.ProductsDAO(connection);
+
+        prodDAO.save(product, (err, result) => {
+            response.redirect('/products');
+        });
+
+        connection.end();
+    });
+
+    app.delete('/products', (request, response) => {
+        let connection = app.infra.connectionFactory();
+        let prodDAO = new app.infra.ProductsDAO(connection);
+
+        let productId = request.body.id;
+
+        prodDAO.delete(productId, (err, result) => {
+            response.redirect('/products');
+        });
+
+        connection.end();
+    });
+
+    app.get('/products/form', (request, response) => {
+        request.render('products/form');
     });
 }
