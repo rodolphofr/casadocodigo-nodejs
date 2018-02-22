@@ -2,12 +2,17 @@
 module.exports = (app) => {
     app.get('/products', (req, res) => {
         let connection = app.infra.connectionFactory();
-        let products = new app.infra.ProductsDAO(connection);
+        let productsDAO = new app.infra.ProductsDAO(connection);
 
-        products.list((error, result) => {
+        productsDAO.list((err, result) => {
             res.render('products/list', { books : result });
         });
 
         connection.end();
+    });
+
+
+    app.get('/products/form', (req, res) => { 
+        res.render('products/form'); 
     });
 }
