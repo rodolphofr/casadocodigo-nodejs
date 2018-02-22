@@ -12,6 +12,8 @@ module.exports = () => {
     // request middleware
     // informando que o express agora é o responsável por fazer parse de urlencoded
     app.use(bodyParser.urlencoded({ extended : true }))
+    // outro middleware para informar ao express que também pode receber conteúdo em formato json
+    app.use(bodyParser.json());
 
     // É importante que essa chamada fique depois do uso do bodyParser,
     // pois somente após os parâmetros da requisição serem devidamente

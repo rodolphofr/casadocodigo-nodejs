@@ -5,14 +5,17 @@ module.exports = (app) => {
         let prodDAO = new app.infra.ProductsDAO(connection);
 
         prodDAO.list((err, result) => {
-            response.render('products/list', { books : result });
+            response.format({
+                html : () => { response.render('products/list', { books : result }); },
+                json : () => { response.json(result); }
+            });
         });
 
         connection.end();
     });
 
     app.post('/products', (request, response) => {
-        let product = request.body;
+        let product = request.body
         let connection = app.infra.connectionFactory();
         let prodDAO = new app.infra.ProductsDAO(connection);
 
@@ -37,6 +40,6 @@ module.exports = (app) => {
     });
 
     app.get('/products/form', (request, response) => {
-        request.render('products/form');
+        response.render('products/form');
     });
 }
