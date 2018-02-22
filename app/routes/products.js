@@ -1,10 +1,17 @@
 
 module.exports = (app) => {
-    app.get('/products', (request, response) => {
+    const PRODUCT_URI = '/products';
+    const PATH_PRODUCT_FORM = 'products/form';
+
+    function jsonForm(errors = {}, prod = {}) {
+        return { validationErrors : errors , product : prod };
+    } 
+    
+    app.get(PRODUCT_URI, (request, response) => {
         let connection = app.infra.connectionFactory();
         let prodDAO = new app.infra.ProductsDAO(connection);
 
-        prodDAO.list((err, result) => {
+        prodDAO.all((err, result) => {
             response.format({
                 html : () => { response.render('products/list', { books : result }); },
                 json : () => { response.json(result); }
@@ -14,32 +21,49 @@ module.exports = (app) => {
         connection.end();
     });
 
-    app.post('/products', (request, response) => {
-        let product = request.body
+    app.post(PRODUCT_URI, (request, response) => {
+        new app.validators.RequestProductValidator().validate(request);
+
+        let errors = request.validationErrors();
+
+        if (errors) {
+            let json = jsonForm();
+            json.validationErrors = errors;
+            json.product = request.body;
+
+            response.status(400);
+            response.format({
+                html : () => { response.render(PATH_PRODUCT_FORM, json); },
+                json : () => { response.json(errors); }
+            });
+
+            return;
+        } 
+
         let connection = app.infra.connectionFactory();
         let prodDAO = new app.infra.ProductsDAO(connection);
 
-        prodDAO.save(product, (err, result) => {
-            response.redirect('/products');
+        prodDAO.save(request.body, (err, result) => {
+            response.redirect(PRODUCT_URI);
         });
 
         connection.end();
     });
 
-    app.delete('/products', (request, response) => {
+    app.delete(PRODUCT_URI, (request, response) => {
         let connection = app.infra.connectionFactory();
         let prodDAO = new app.infra.ProductsDAO(connection);
 
         let productId = request.body.id;
 
         prodDAO.delete(productId, (err, result) => {
-            response.redirect('/products');
+            response.redirect(PRODUCT_URI);
         });
 
         connection.end();
     });
 
-    app.get('/products/form', (request, response) => {
-        response.render('products/form');
+    app.get(`${PRODUCT_URI}/form`, (request, response) => {
+        response.render(PATH_PRODUCT_FORM, jsonForm());
     });
 }

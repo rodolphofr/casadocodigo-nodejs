@@ -4,21 +4,30 @@
     <title>Form</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
   </head>
   <body>
+      <% if (validationErrors.length > 0) { %>
+        <div id="validation-errors">
+          <ul>
+            <% validationErrors.forEach((error) => { %>
+              <li><strong><%= error.param %> - <%= error.msg %></strong></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+      
       <form action="/products" method="post">
          <div>
             <label for="title">Title:</label>
-            <input type="text" name="title" id="title" placeholder="Input title">
+            <input type="text" name="title" id="title" value="<%= product.title %>" placeholder="Input title">
          </div>
          <div>
             <label for="price">Price:</label>
-            <input type="text" name="price" id="price" placeholder="Input price">
+            <input type="text" name="price" id="price" value="<%= product.price %>" placeholder="Input price">
          </div>
          <div>
             <label for="description">Description:</label>
-            <textarea rows="5" cols="10"  name="description" id="description" placeholder="Talk about the book"></textarea>
+            <textarea rows="5" cols="10"  name="description" id="description"  placeholder="Talk about the book"><%= product.description %></textarea>
          </div>
          <div>
              <input type="submit" value="Save">

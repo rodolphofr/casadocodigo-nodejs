@@ -5,8 +5,8 @@ const config = {
     path : '/products',
     method : 'post',
     headers : {
-        Accept : 'application/json',
-        'Content-type' : 'application/json'
+        Accept : 'application/json', // aceita o conteudo recebido
+        'Content-type' : 'application/json' // conteúdo enviado 
     }
 };
 
@@ -18,7 +18,7 @@ const client = http.request(config, (response) => {
 });
 
 const product = {
-    title : 'avançando na plataforma JS',
+    title : '',
     description : 'Avançando sem parar em JS',
     price : 100
 };

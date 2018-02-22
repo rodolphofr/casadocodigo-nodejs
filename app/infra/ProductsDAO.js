@@ -3,7 +3,7 @@ function ProductsDAO(connection) {
 }
 
 // prototype adiciona propriedades a estrutura padrao de uma classe
-ProductsDAO.prototype.list = function(callback) {
+ProductsDAO.prototype.all = function(callback) {
     this._connection.query('SELECT * FROM produtos', callback);
 }
 
