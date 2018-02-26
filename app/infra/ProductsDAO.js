@@ -21,6 +21,10 @@ ProductsDAO.prototype.delete = function(productId, callback) {
     this._connection.query('DELETE FROM produtos WHERE id = ?', productId, callback);
 }
 
+ProductsDAO.prototype.deleteAll = function(callback) {
+    this._connection.query('DELETE FROM produtos', callback);
+}
+
 module.exports = () => {
     return ProductsDAO;
 }

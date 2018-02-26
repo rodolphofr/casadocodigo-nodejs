@@ -9,6 +9,7 @@ function createDBConnection() {
         database : 'casadocodigo_nodejs'
     };
 
+    if (env.NODE_ENV == 'test') config.database += '_test';
     if (env.NODE_ENV == 'prod') config.database += '_prod';
 
     return mysql.createConnection(config);

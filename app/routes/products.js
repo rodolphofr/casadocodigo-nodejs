@@ -12,9 +12,7 @@ module.exports = (app) => {
         const prodDAO = new app.infra.ProductsDAO(connection);
 
         prodDAO.all((error, result) => {
-            if (error) {
-                return next(error);
-            }
+            if (error) return next(error);
 
             response.format({
                 html : () => { response.render('products/list', { books : result }); },
@@ -48,9 +46,7 @@ module.exports = (app) => {
         const prodDAO = new app.infra.ProductsDAO(connection);
 
         prodDAO.save(request.body, (error, result) => {
-            if (error) {
-                return next(error);
-            }
+            if (error) return next(error);
             response.redirect(PRODUCT_URI);
         });
 
@@ -62,10 +58,8 @@ module.exports = (app) => {
         const prodDAO = new app.infra.ProductsDAO(connection);
         const productId = request.body.id;
 
-        prodDAO.delete(productId, (errors, result) => {
-            if (errors) {
-                return next(errors);
-            }
+        prodDAO.delete(productId, (error, result) => {
+            if (error) return next(error);
             response.redirect(PRODUCT_URI);
         });
 
