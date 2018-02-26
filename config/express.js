@@ -5,7 +5,7 @@ const methodOverride = require('method-override');
 const expressValidator = require('express-validator');
 
 module.exports = () => {
-    let app = express(); // invoca e recebe o objeto do express
+    const app = express(); // invoca e recebe o objeto do express
 
     app.set('view engine', 'ejs'); // informa para o app a view engine utilizada
     app.set('views', './app/views'); // informa para o app aonde estao as views

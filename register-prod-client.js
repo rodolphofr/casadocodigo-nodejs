@@ -6,19 +6,19 @@ const config = {
     method : 'post',
     headers : {
         Accept : 'application/json', // aceita o conteudo recebido
-        'Content-type' : 'application/json' // conteúdo enviado 
+        'Content-type' : 'application/json' // conteúdo enviado
     }
 };
 
 const client = http.request(config, (response) => {
-    console.log(response.statusCode);  
+    console.log(response.statusCode);
     response.on('data', (body) => {
         console.log('body: ' + body);
     });
 });
 
 const product = {
-    title : '',
+    title : 'Avançando em JS',
     description : 'Avançando sem parar em JS',
     price : 100
 };

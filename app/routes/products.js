@@ -5,8 +5,8 @@ module.exports = (app) => {
 
     function jsonForm(errors = {}, prod = {}) {
         return { validationErrors : errors , product : prod };
-    } 
-    
+    }
+
     app.get(PRODUCT_URI, (request, response) => {
         const connection = app.infra.connectionFactory();
         const prodDAO = new app.infra.ProductsDAO(connection);
@@ -38,7 +38,7 @@ module.exports = (app) => {
             });
 
             return;
-        } 
+        }
 
         const connection = app.infra.connectionFactory();
         const prodDAO = new app.infra.ProductsDAO(connection);
