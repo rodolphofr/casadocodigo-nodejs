@@ -8,8 +8,8 @@ module.exports = (app) => {
     } 
     
     app.get(PRODUCT_URI, (request, response) => {
-        let connection = app.infra.connectionFactory();
-        let prodDAO = new app.infra.ProductsDAO(connection);
+        const connection = app.infra.connectionFactory();
+        const prodDAO = new app.infra.ProductsDAO(connection);
 
         prodDAO.all((err, result) => {
             response.format({
@@ -24,10 +24,10 @@ module.exports = (app) => {
     app.post(PRODUCT_URI, (request, response) => {
         new app.validators.RequestProductValidator().validate(request);
 
-        let errors = request.validationErrors();
+        const errors = request.validationErrors();
 
         if (errors) {
-            let json = jsonForm();
+            const json = jsonForm();
             json.validationErrors = errors;
             json.product = request.body;
 
@@ -40,8 +40,8 @@ module.exports = (app) => {
             return;
         } 
 
-        let connection = app.infra.connectionFactory();
-        let prodDAO = new app.infra.ProductsDAO(connection);
+        const connection = app.infra.connectionFactory();
+        const prodDAO = new app.infra.ProductsDAO(connection);
 
         prodDAO.save(request.body, (err, result) => {
             response.redirect(PRODUCT_URI);
@@ -51,10 +51,9 @@ module.exports = (app) => {
     });
 
     app.delete(PRODUCT_URI, (request, response) => {
-        let connection = app.infra.connectionFactory();
-        let prodDAO = new app.infra.ProductsDAO(connection);
-
-        let productId = request.body.id;
+        const connection = app.infra.connectionFactory();
+        const prodDAO = new app.infra.ProductsDAO(connection);
+        const productId = request.body.id;
 
         prodDAO.delete(productId, (err, result) => {
             response.redirect(PRODUCT_URI);
