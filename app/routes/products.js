@@ -7,11 +7,15 @@ module.exports = (app) => {
         return { validationErrors : errors , product : prod };
     }
 
-    app.get(PRODUCT_URI, (request, response) => {
+    app.get(PRODUCT_URI, (request, response, next) => {
         const connection = app.infra.connectionFactory();
         const prodDAO = new app.infra.ProductsDAO(connection);
 
-        prodDAO.all((err, result) => {
+        prodDAO.all((error, result) => {
+            if (error) {
+                return next(error);
+            }
+
             response.format({
                 html : () => { response.render('products/list', { books : result }); },
                 json : () => { response.json(result); }
@@ -21,7 +25,7 @@ module.exports = (app) => {
         connection.end();
     });
 
-    app.post(PRODUCT_URI, (request, response) => {
+    app.post(PRODUCT_URI, (request, response, next) => {
         new app.validators.RequestProductValidator().validate(request);
 
         const errors = request.validationErrors();
@@ -43,19 +47,25 @@ module.exports = (app) => {
         const connection = app.infra.connectionFactory();
         const prodDAO = new app.infra.ProductsDAO(connection);
 
-        prodDAO.save(request.body, (err, result) => {
+        prodDAO.save(request.body, (error, result) => {
+            if (error) {
+                return next(error);
+            }
             response.redirect(PRODUCT_URI);
         });
 
         connection.end();
     });
 
-    app.delete(PRODUCT_URI, (request, response) => {
+    app.delete(PRODUCT_URI, (request, response, next) => {
         const connection = app.infra.connectionFactory();
         const prodDAO = new app.infra.ProductsDAO(connection);
         const productId = request.body.id;
 
-        prodDAO.delete(productId, (err, result) => {
+        prodDAO.delete(productId, (errors, result) => {
+            if (errors) {
+                return next(errors);
+            }
             response.redirect(PRODUCT_URI);
         });
 
