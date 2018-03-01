@@ -10,6 +10,9 @@ module.exports = () => {
     app.set('view engine', 'ejs'); // informa para o app a view engine utilizada
     app.set('views', './app/views'); // informa para o app aonde estao as views
 
+    // Garante que todo arquivo que estiver dentro da pasta public será servido de 
+    // maneira estática sem que precise de uma rota configurada para ele.
+    app.use(express.static('./app/public'));
     /* MIDDLEWARES */
     // request middleware
     // informando que o express agora é o responsável por fazer parse de urlencoded

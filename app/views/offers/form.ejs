@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Offers</title>
+</head>
+<body>
+    <form action="/offers" method="post">
+        <div>
+            <label for="offer-message">Message:</label>
+            <input type="text" name="message" id="offer-message">
+        </div>
+        <div>
+            <label for="books-select">Select book to offer:</label>
+            <select name="book[id]" id="books-select">
+                <option>select...</option>
+                <% books.forEach((book) => { %>
+                    <option value="<%= book.id %>"><%= book.title %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Register offer">
+        </div>
+    </form>
+</body>
+</html>
