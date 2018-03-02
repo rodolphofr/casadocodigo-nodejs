@@ -1,4 +1,5 @@
 CREATE DATABASE casadocodigo_nodejs;
+
 USE casadocodigo_nodejs;
 
 CREATE TABLE products (
